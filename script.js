@@ -63,9 +63,25 @@ function render(board) {
 			}
 		}
 	}
-
+	return board
 }
+let x = render(random_state(width,height))
+next_board_state(x)
+function next_board_state(board) {
+	const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
-render(dead_state(width,height))
-render(random_state(width,height))
+
+	const loop = async () => {
+		for(let i = 0; i < 100; i++) {
+			console.clear()
+			render(random_state(width,height))	
+			await wait(100)
+		} 
+	}
+	loop()
+		
+	}
+
+
+
 console.log('')
