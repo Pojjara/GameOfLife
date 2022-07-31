@@ -1,21 +1,25 @@
+
+
 board_state = []
 
-width = 50
+width = 200
 height = 20
 randomnessValue = 0.9
 function dead_state(width, height) {
 
+	board = []
 	for(let i = 0 ; i < height;i++){
-		board_state.push([])
+		board.push([])
 		for(let k = 0 ; k < width;k++)
-			board_state[i].push(0)
+			board[i].push(0)
 		}
+	return board
 }
 
 
 function random_state(width, height){
     // Build the board using your previous work
-    dead_state(width, height)
+    let state = dead_state(width, height)
 
     // TODO: randomize each element of `state`
     // to either 0 or 1
@@ -24,13 +28,13 @@ function random_state(width, height){
 		for(let k = 0 ; k < width;k++){
 			let y = Math.random();
 			if (y < randomnessValue)
-				board_state[i][k] = 0
+				state[i][k] = 0
 			else
-				board_state[i][k] = 1
+				state[i][k] = 1
 		}
 			
 		}
-	
+	return state
 }
 
 function render(board) {
@@ -62,7 +66,6 @@ function render(board) {
 
 }
 
-random_state(width,height)
-console.log(board_state)
-render(board_state)
+render(dead_state(width,height))
+render(random_state(width,height))
 console.log('')
