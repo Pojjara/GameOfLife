@@ -1,10 +1,9 @@
 
 
-board_state = []
 
-width = 200
-height = 20
-randomnessValue = 0.9
+const width = 100
+const height = 20
+randomnessValue = 0.5
 function dead_state(width, height) {
 
 	board = []
@@ -70,54 +69,25 @@ function render(board) {
 
 function checkIfIsInCorner(cellsH,cellsW,board) {
 	if(board[cellsH-1] == undefined){
-		console.log('undefined')
-	}
-	try {
-		let check = board[cellsH-1]
-	}
-	catch (err){
-		try {
-			board[cellsH][cellsW-1]
+		if(board[cellsH][cellsW-1] == undefined){
+			return 'top left'
 		}
-		catch (sErr) {
-			if (sErr instanceof TypeError) {
-				return 'top left'
-			}
+		if(board[cellsH][cellsW+1] == undefined) {
+			return 'top right'
 		}
-
-		if (err instanceof TypeError){
-			try {
-			board[cellsH][cellsW+1]
-			}
-		catch (sErr) {
-			if (sErr instanceof TypeError) {
-				return 'top right'
-				}
-			}
-	}
-	}
-	try {
-		board[cellsH+1]
-	}
-	catch(err){
-		try {
-			board[cellsH][cellsW-1]
+		else {
+			return 'top row'
 		}
-		catch(sErr) {
-			if (sErr instanceof TypeError){
-				return 'bottom left'
-			}
+	}
+	if(board[cellsH+1] == undefined){
+		if(board[cellsH][cellsW-1] == undefined){
+			return 'bottom left'
 		}
-
-		if(err instanceof TypeError){
-			try {
-				board[cellsH][cellsW+1]
-			}
-			catch(sErr) {
-				if(sErr instanceof TypeError){
-					return 'bottom right'
-				}
-			}
+		if(board[cellsH][cellsW+1] == undefined){
+			return 'bottom right'
+		}
+		else{
+			return 'bottom row'
 		}
 	}
 	
@@ -139,6 +109,21 @@ function calculateAmountOfNeigbors(cellsH,cellsW,board) {
 		if(board[cellsH][cellsW+1] == '#') {
 			amountOfNeigbors++
 		}
+		if(board[cellsH+height-1][cellsW] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH+height-1][cellsW+1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH+height-1][cellsW+width-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH][cellsW+width-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH+1][cellsW+width-1] == '#') {
+			amountOfNeigbors++
+		}
 	}
 	//if it is in top right corner
 	if(whichCorner == 'top right'){
@@ -149,6 +134,21 @@ function calculateAmountOfNeigbors(cellsH,cellsW,board) {
 			amountOfNeigbors++
 		}
 		if(board[cellsH][cellsW-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH+height-1][cellsW] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH+height-1][cellsW-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH+height-1][cellsW-width-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH][cellsW-width-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH+1][cellsW-width-1] == '#') {
 			amountOfNeigbors++
 		}
 	}
@@ -163,6 +163,21 @@ function calculateAmountOfNeigbors(cellsH,cellsW,board) {
 		if(board[cellsH][cellsW+1] == '#') {
 			amountOfNeigbors++
 		}
+		if(board[cellsH-height+1][cellsW] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH][cellsW+width-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH-1][cellsW+width-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH-height+1][cellsW+width-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH-height+1][cellsW+1] == '#') {
+			amountOfNeigbors++
+		}
 	}
 	// if it is bottom right corner
 	if(whichCorner == 'bottom right'){
@@ -173,6 +188,74 @@ function calculateAmountOfNeigbors(cellsH,cellsW,board) {
 			amountOfNeigbors++
 		}
 		if(board[cellsH][cellsW-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH-height+1][cellsW] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH][cellsW-width-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH-height+1][cellsW-width-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH-height+1][cellsW-1] == '#') {
+			amountOfNeigbors++
+		}
+		if(board[cellsH-1][cellsW-width-1] == '#') {
+			amountOfNeigbors++
+		}
+
+	}
+	if(whichCorner == 'top row'){
+		if (board[cellsH+1][cellsW] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH+1][cellsW+1] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH+1][cellsW-1] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH][cellsW-1] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH][cellsW+1] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH+height-1][cellsW] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH+height-1][cellsW-1] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH+height-1][cellsW+1] == '#') {
+			amountOfNeigbors++
+		}
+	}
+	if(whichCorner == 'bottom row'){
+		if (board[cellsH-1][cellsW] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH-1][cellsW+1] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH-1][cellsW-1] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH][cellsW-1] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH][cellsW+1] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH-height+1][cellsW] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH-height+1][cellsW-1] == '#') {
+			amountOfNeigbors++
+		}
+		if (board[cellsH-height+1][cellsW+1] == '#') {
 			amountOfNeigbors++
 		}
 	}
@@ -208,47 +291,52 @@ function calculateAmountOfNeigbors(cellsH,cellsW,board) {
 
 
 function next_board_state(board) {
-	const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+	
 
-	let state = []
-	dead_state(width, height)
-	console.log()
+	console.clear()
+	let state = dead_state(width, height)
 
 	// for each cell calculate the amount of neighbors
 	for(let h = 0; h < height; h++) {
 		for(let w = 0; w < width; w++) {
 			let amountOfNeigbors = calculateAmountOfNeigbors(h,w,board)
 
-			if (amountOfNeigbors < 1) {
+			if (amountOfNeigbors <= 1 && board[h][w] == '#') {
 				state[h][w] = ' '
 			}
-			if (amountOfNeigbors == 2 || amountOfNeigbors == 3) {
+			if (amountOfNeigbors == 2 && board[h][w] == '#' || amountOfNeigbors == 3 && board[h][w] == '#') {
 				state[h][w] = '#'
 			}
-			if (amountOfNeigbors > 3) {
+			if (amountOfNeigbors > 3 && board[h][w] == '#') {
 				state[h][w] = ' '
 			}
-			if (amountOfNeigbors == 3 && board[i][k] == ' ') {
+			if (amountOfNeigbors == 3 && board[h][w] == ' ') {
 				state[h][w] = '#'
 			}
 		}
 	}
 	return state
-
-	const loop = async () => {
-		for(let i = 0; i < 100; i++) {
-			console.clear()
-			// needs changing, needs to generate not a random but correct board with arguments 
-			// Any live cell with 0 or 1 live neighbors becomes dead, because of underpopulation
-			// Any live cell with 2 or 3 live neighbors stays alive, because its neighborhood is just right
-			// Any live cell with more than 3 live neighbors becomes dead, because of overpopulation
-			// Any dead cell with exactly 3 live neighbors becomes alive, by reproduction
-			render(random_state(width,height))	
-			await wait(100)
-		} 
-	}
-	loop()
+	
 		
 	}
-let x = render(random_state(width,height))
-next_board_state(x)
+let startingState = random_state(width,height)
+render(startingState)
+let nextState = next_board_state(startingState)
+render(nextState)
+
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+const loop = async () => {
+	for(let i = 0; i < 100; i++) {
+		console.clear()
+		// needs changing, needs to generate not a random but correct board with arguments 
+		// Any live cell with 0 or 1 live neighbors becomes dead, because of underpopulation
+		// Any live cell with 2 or 3 live neighbors stays alive, because its neighborhood is just right
+		// Any live cell with more than 3 live neighbors becomes dead, because of overpopulation
+		// Any dead cell with exactly 3 live neighbors becomes alive, by reproduction
+		nextState = next_board_state(nextState)
+		render(nextState)
+	
+		await wait(100)
+	} 
+}
+loop()
