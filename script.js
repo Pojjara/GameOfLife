@@ -1,9 +1,9 @@
 
 
 
-const width = 100
-const height = 20
-randomnessValue = 0.5
+const width = 209
+const height = 30 
+randomnessValue = 0.78
 function dead_state(width, height) {
 
 	board = []
@@ -18,11 +18,8 @@ function dead_state(width, height) {
 
 
 function random_state(width, height){
-    // Build the board using your previous work
-    let state = dead_state(width, height)
 
-    // TODO: randomize each element of `state`
-    // to either 0 or 1
+    let state = dead_state(width, height)
 
 	for(let i = 0 ; i < height;i++){
 		for(let k = 0 ; k < width;k++){
@@ -42,7 +39,7 @@ function render(board) {
 	for(let i = 0; i < height; i++) {
 		if (i == 0 ) {
 			for (let z = 0; z < width; z++) {
-				process.stdout.write('~')
+				process.stdout.write('_')
 			}
 		}
 		console.log('')
@@ -59,7 +56,7 @@ function render(board) {
 		if (i+1 == height ) {
 			console.log('')
 			for (let x = 0; x < width; x++) {
-				process.stdout.write('~')
+				process.stdout.write('_')
 			}
 		}
 	}
@@ -259,7 +256,6 @@ function calculateAmountOfNeigbors(cellsH,cellsW,board) {
 			amountOfNeigbors++
 		}
 	}
-	//else
 	if(whichCorner == false) {
 		if (board[cellsH+1][cellsW] == '#') {
 			amountOfNeigbors++
@@ -289,11 +285,9 @@ function calculateAmountOfNeigbors(cellsH,cellsW,board) {
 	return amountOfNeigbors
 }
 
-
 function next_board_state(board) {
 	
 
-	console.clear()
 	let state = dead_state(width, height)
 
 	// for each cell calculate the amount of neighbors
@@ -301,42 +295,44 @@ function next_board_state(board) {
 		for(let w = 0; w < width; w++) {
 			let amountOfNeigbors = calculateAmountOfNeigbors(h,w,board)
 
+			// Any live cell with 0 or 1 live neighbors becomes dead, because of underpopulation
 			if (amountOfNeigbors <= 1 && board[h][w] == '#') {
 				state[h][w] = ' '
 			}
+			// Any live cell with 2 or 3 live neighbors stays alive, because its neighborhood is just right
 			if (amountOfNeigbors == 2 && board[h][w] == '#' || amountOfNeigbors == 3 && board[h][w] == '#') {
 				state[h][w] = '#'
 			}
+			// Any live cell with more than 3 live neighbors becomes dead, because of overpopulation
 			if (amountOfNeigbors > 3 && board[h][w] == '#') {
 				state[h][w] = ' '
 			}
+			// Any dead cell with exactly 3 live neighbors becomes alive, by reproduction
 			if (amountOfNeigbors == 3 && board[h][w] == ' ') {
 				state[h][w] = '#'
 			}
 		}
 	}
+
 	return state
-	
-		
 	}
 let startingState = random_state(width,height)
 render(startingState)
+console.clear()
 let nextState = next_board_state(startingState)
 render(nextState)
+console.clear()
 
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 const loop = async () => {
-	for(let i = 0; i < 100; i++) {
-		console.clear()
-		// needs changing, needs to generate not a random but correct board with arguments 
-		// Any live cell with 0 or 1 live neighbors becomes dead, because of underpopulation
-		// Any live cell with 2 or 3 live neighbors stays alive, because its neighborhood is just right
-		// Any live cell with more than 3 live neighbors becomes dead, because of overpopulation
-		// Any dead cell with exactly 3 live neighbors becomes alive, by reproduction
+	for(let i = 0; i < 10000; i++) {
+
 		nextState = next_board_state(nextState)
+
 		render(nextState)
-	
-		await wait(100)
+
+		await wait(150)
+		console.clear()
 	} 
 }
 loop()
